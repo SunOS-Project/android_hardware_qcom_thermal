@@ -16,6 +16,24 @@
       "message": "Why not use the original commit msg? No need to mention FP5 here",
       "revId": "e2e39949ced62aa2c61369d6c7164fff0e9a7d1d",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6deb1186_2681f5e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2024-05-25T13:26:29Z",
+      "side": 1,
+      "message": "Yes, changing commit message sucks if this is a plain cherry-pick.",
+      "parentUuid": "0b844538_5006bf61",
+      "revId": "e2e39949ced62aa2c61369d6c7164fff0e9a7d1d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
