@@ -60,6 +60,7 @@ class ThermalConfig {
 		std::vector<struct target_therm_cfg> thermalConfig;
 		int soc_id;
 		std::string hw_platform;
+		int limitp;
 		ThermalCommon cmnInst;
 };
 
