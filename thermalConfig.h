@@ -59,7 +59,11 @@ class ThermalConfig {
 	private:
 		std::vector<struct target_therm_cfg> thermalConfig;
 		int soc_id;
+<<<<<<< HEAD
 		std::string hw_platform;
+=======
+		int limitp;
+>>>>>>> LA.VENDOR.14.3.0.r1-18500-lanai.0
 		ThermalCommon cmnInst;
 };
 

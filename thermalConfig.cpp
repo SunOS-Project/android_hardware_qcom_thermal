@@ -2191,6 +2191,57 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		},
 	};
 
+	std::vector<struct target_therm_cfg> volcano_profile1 = {
+		{
+			TemperatureType::CPU,
+			cpu_sensors_volcano,
+			"",
+			105000,
+			118000,
+			true,
+		},
+		{
+			TemperatureType::GPU,
+			{ "gpuss-0" },
+			"GPU0",
+			105000,
+			118000,
+			true,
+		},
+		{
+			TemperatureType::GPU,
+			{ "gpuss-1" },
+			"GPU1",
+			105000,
+			118000,
+			true,
+		},
+		{
+			TemperatureType::NPU,
+			{ "nsphvx-0" },
+			"nsp0",
+			105000,
+			118000,
+			true,
+		},
+		{
+			TemperatureType::NPU,
+			{ "nsphmx-0" },
+			"nsp2",
+			105000,
+			118000,
+			true,
+		},
+		{
+			TemperatureType::NPU,
+			{ "nsphmx-1" },
+			"nsp3",
+			105000,
+			118000,
+			true,
+		},
+	};
+
 	std::vector<struct target_therm_cfg>  volcano_specific = {
 		{
 			TemperatureType::SKIN,
@@ -2490,6 +2541,8 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{604, kalama_common}, //Kalama_qcm
 		{557, pineapple_common}, //Pineapple
 		{577, pineapple_common}, //Pineapplep
+		{682, pineapple_common}, //Pineapple gaming
+		{696, pineapple_common}, //Pineapple compute
 		{632, cliffs_common}, //cliffs
 		{614, cliffs_common}, //cliffs7
 		{486, sensor_cfg_monaco}, // monaco
@@ -2499,8 +2552,8 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{652, niobe_common}, // Matrix_4k
 		{636, volcano_common}, //milos
 		{640, volcano_common}, //milos6
-		{657, volcano_common}, //milos IOT with modem
-		{658, volcano_common}, //milos IOT
+		{657, volcano_specific}, //milos IOT with modem
+		{658, volcano_specific}, //milos IOT
 		{549, anorak_common},
 		{649, anorak_common}, // Halliday Pro
 		{525, neo_common},
@@ -2546,6 +2599,8 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{604, kalama_specific}, //Kalama_qcm
 		{557, pineapple_specific}, //Pineapple
 		{577, pineapple_specific}, //Pineapplep
+		{682, pineapple_specific}, //Pineapple gaming
+		{696, pineapple_specific}, //Pineapple compute
 		{632, cliffs_specific}, //cliffs
 		{614, cliffs_specific}, //cliffs7
 		{623, pitti_specific}, // Kalpeni
@@ -2553,8 +2608,6 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{652, niobe_specific}, // Matrix_4k
 		{636, volcano_specific}, //milos
 		{640, volcano_specific}, //milos6
-		{657, volcano_specific}, //milos IOT with modem
-		{658, volcano_specific}, //milos IOT
 		{549, anorak_specific},
 		{649, anorak_specific}, // Halliday Pro
 		{537, parrot_specific}, //Netrani mobile
@@ -2576,6 +2629,7 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{405, true},
 	};
 
+<<<<<<< HEAD
 	const std::unordered_multimap<int, std::pair<std::string,
 				std::vector<struct target_therm_cfg>>>
 		msm_platform_specific = {
@@ -2585,12 +2639,25 @@ std::vector<std::string> cpu_sensors_cliffs = {
 
 	std::vector<struct target_therm_cfg> add_target_config(
 			int socID, std::string hwPlatform,
+=======
+	const std::unordered_multimap<int, std::pair<int, std::vector<struct target_therm_cfg>>>
+	msm_limit_profile_specific = {
+		{657, std::make_pair(0, volcano_common)},
+		{657, std::make_pair(1, volcano_profile1)},
+		{658, std::make_pair(0, volcano_common)},
+		{658, std::make_pair(1, volcano_profile1)},
+	};
+
+	std::vector<struct target_therm_cfg> add_target_config(
+			int socID, int lp,
+>>>>>>> LA.VENDOR.14.3.0.r1-18500-lanai.0
 			std::vector<struct target_therm_cfg> conf)
 	{
 		std::vector<struct target_therm_cfg> targetConf;
 
 		if (msm_soc_specific.find(socID) != msm_soc_specific.end()) {
 			targetConf = (msm_soc_specific.find(socID))->second;
+<<<<<<< HEAD
 			conf.insert(conf.end(), targetConf.begin(),
 					targetConf.end());
 		}
@@ -2605,6 +2672,23 @@ std::vector<std::string> cpu_sensors_cliffs = {
 			conf.insert(conf.end(), targetConf.begin(),
 					targetConf.end());
 			break;
+=======
+
+			conf.insert(conf.end(), targetConf.begin(),
+						targetConf.end());
+		}
+
+		auto range = msm_limit_profile_specific.equal_range(socID);
+		auto it = range.first;
+		if (range.first != msm_limit_profile_specific.end()) {
+			for (; it != range.second; ++it) {
+				if (it->second.first != lp)
+					continue;
+				targetConf = it->second.second;
+				conf.insert(conf.end(), targetConf.begin(),targetConf.end());
+				break;
+			}
+>>>>>>> LA.VENDOR.14.3.0.r1-18500-lanai.0
 		}
 
 		return conf;
@@ -2645,12 +2729,26 @@ std::vector<std::string> cpu_sensors_cliffs = {
 			LOG(ERROR) << "Invalid soc ID: " << soc_id;
 			return;
 		}
+
+		auto range = msm_limit_profile_specific.equal_range(soc_id);
+		if (range.first != msm_limit_profile_specific.end()) {
+			limitp = cmnInst.findLimitProfile();
+			if (limitp < 0) {
+				LOG(DEBUG) << "Invalid limit profile, defaulting to 0.";
+				limitp = 0;
+			}
+		}
+
 		it = msm_soc_map.find(soc_id);
 		if (it == msm_soc_map.end()) {
 			LOG(ERROR) << "No config for soc ID: " << soc_id;
 			return;
 		}
+<<<<<<< HEAD
 		thermalConfig = add_target_config(soc_id, hw_platform, it->second);
+=======
+		thermalConfig = add_target_config(soc_id, limitp, it->second);
+>>>>>>> LA.VENDOR.14.3.0.r1-18500-lanai.0
 		for (it_vec = thermalConfig.begin();
 				it_vec != thermalConfig.end(); it_vec++) {
 			if (it_vec->type == TemperatureType::BCL_PERCENTAGE)
