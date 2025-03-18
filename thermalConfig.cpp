@@ -1859,6 +1859,9 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{577, pineapple_common}, //Pineapplep
 		{682, pineapple_common}, //Pineapple gaming
 		{696, pineapple_common}, //Pineapple compute
+		{645, pineapple_common}, //Pineapple
+		{646, pineapple_common}, //Pineapple
+		{702, pineapple_common}, //Pineapple
 		{632, cliffs_common}, //cliffs
 		{614, cliffs_common}, //cliffs7
 		{486, sensor_cfg_monaco}, // monaco
@@ -1898,6 +1901,9 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{577, pineapple_specific}, //Pineapplep
 		{682, pineapple_specific}, //Pineapple gaming
 		{696, pineapple_specific}, //Pineapple compute
+		{645, pineapple_specific}, //Pineapple
+		{646, pineapple_specific}, //Pineapple
+		{702, pineapple_specific}, //Pineapple
 		{632, cliffs_specific}, //cliffs
 		{614, cliffs_specific}, //cliffs7
 		{623, pitti_specific}, // Kalpeni
