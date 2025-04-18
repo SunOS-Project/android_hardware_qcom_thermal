@@ -1544,6 +1544,79 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		},
 	};
 
+	std::vector<std::string> cpu_sensors_seraph = {
+		"cpu-0-0",
+		"cpu-0-1",
+		"cpu-1-0",
+		"cpu-1-1",
+		"cpu-0-0",
+		"cpu-0-1",
+		"cpu-1-0",
+		"cpu-1-1",
+	};
+
+	std::vector<struct target_therm_cfg> seraph_common = {
+		{
+			TemperatureType::CPU,
+			cpu_sensors_seraph,
+			"",
+			95000,
+			115000,
+			true,
+		},
+		{
+			TemperatureType::GPU,
+			{ "gpu-0" },
+			"GPU0",
+			95000,
+			115000,
+			true,
+		},
+		{
+			TemperatureType::GPU,
+			{ "gpu-1" },
+			"GPU1",
+			95000,
+			115000,
+			true,
+		},
+		{
+			TemperatureType::NPU,
+			{ "nspvxu-0" },
+			"nsp0",
+			95000,
+			115000,
+			true,
+		},
+		{
+			TemperatureType::NPU,
+			{ "nspvxu-1" },
+			"nsp1",
+			95000,
+			115000,
+			true,
+		},
+		{
+			TemperatureType::NPU,
+			{ "nspmxu" },
+			"nsp2",
+			95000,
+			115000,
+			true,
+		},
+	};
+
+	std::vector<struct target_therm_cfg>  seraph_specific = {
+		{
+			TemperatureType::SKIN,
+			{ "sys-therm-0" },
+			"skin",
+			60000,
+			95000,
+			true,
+		},
+	};
+
 	std::vector<std::string> cpu_sensors_volcano = {
 		"cpu-0-0-0",
 		"cpu-0-1-0",
@@ -1875,6 +1948,8 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{658, volcano_specific}, //milos IOT
 		{549, anorak_common},
 		{649, anorak_common}, // Halliday Pro
+		{672, seraph_common}, //Balsam-SAR1250P
+		{673, seraph_common}, //Balsam-SAR2230P
 	};
 
 	const std::unordered_map<int, std::vector<struct target_therm_cfg>>
@@ -1913,6 +1988,8 @@ std::vector<std::string> cpu_sensors_cliffs = {
 		{640, volcano_specific}, //milos6
 		{549, anorak_specific},
 		{649, anorak_specific}, // Halliday Pro
+		{672, seraph_specific}, //Balsam-SAR1250P
+		{673, seraph_specific}, //Balsam-SAR2230P
 	};
 
 	const std::unordered_map<int, bool>
